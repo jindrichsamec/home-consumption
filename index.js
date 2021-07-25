@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const koa = require("koa");
 const Router = require("koa-router");
 const mysql = require("mysql2/promise");
