@@ -1,0 +1,17 @@
+{
+  "name": "home-consumption",
+  "version": "1.0.0",
+  "description": "Script saves home consumption values",
+  "main": "index.js",
+  "repository": "http://github.com/jindrichsamec/home-consumption",
+  "author": "Jindrich Samec",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "env-var": "^7.0.1",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "mysql2": "^2.2.5"
+  }
+}
