@@ -1,8 +1,10 @@
 {
-  "name": "home-consumption",
+  "name": "@jindrichsamec/home-consumption",
   "version": "1.0.0",
   "description": "Script saves home consumption values",
-  "main": "index.js",
+  "bin": {
+    "home-consumption": "./index.js"
+  },
   "repository": "http://github.com/jindrichsamec/home-consumption",
   "author": "Jindrich Samec",
   "license": "MIT",
