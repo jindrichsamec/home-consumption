@@ -1,6 +1,6 @@
 {
   "name": "js-home-consumption",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "Script saves home consumption values",
   "private": false,
   "bin": {
