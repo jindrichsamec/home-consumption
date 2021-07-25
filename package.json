@@ -6,6 +6,9 @@
   "repository": "http://github.com/jindrichsamec/home-consumption",
   "author": "Jindrich Samec",
   "license": "MIT",
+  "scripts": {
+    "ci": "echo ':(' > /dev/null"
+  },
   "dependencies": {
     "dotenv": "^10.0.0",
     "env-var": "^7.0.1",
