@@ -1,0 +1,32 @@
+{
+	"id": "/reading",
+	"title": "Root",
+	"type": "object",
+	"properties": {
+		"gas": {
+			"$id": "#root/gas",
+			"title": "Gas",
+			"type": "integer",
+			"default": 0
+		},
+		"electricity": {
+			"$id": "#root/electricity",
+			"title": "Electricity",
+			"type": "integer",
+			"default": 0
+		},
+		"coldWater": {
+			"$id": "#root/coldWater",
+			"title": "Coldwater",
+			"type": "integer",
+			"default": 0
+		},
+		"hotWater": {
+			"$id": "#root/hotWater",
+			"title": "Hotwater",
+			"type": "integer",
+			"default": 0
+		}
+	}
+}
+
