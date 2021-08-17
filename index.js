@@ -9,9 +9,33 @@ const readingSchema = require("./reading.schema.json");
 
 let connection = null;
 
+async function createConnection() {
+  connection = await mysql.createConnection(config.mysql);
+
+  connection.connect((err) => {
+    // The server is either down
+    if (err) {
+      // or restarting (takes a while sometimes).
+      console.log("error when connecting to db:", err);
+      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+    } // to avoid a hot loop, and to allow our node script to
+  });
+
+  connection.on("error", (err) => {
+    console.log("db error", err);
+    if (err.code === "PROTOCOL_CONNECTION_LOST") {
+      // Connection to the MySQL server is usually
+      createConnection(); // lost due to either server restart, or a
+    } else {
+      // connnection idle timeout (the wait_timeout
+      throw err; // server variable configures this)
+    }
+  });
+}
+
 async function getMysqlConnection() {
   if (connection === null) {
-    connection = await mysql.createConnection(config.mysql);
+    await createConnection();
   }
   return connection;
 }
@@ -48,7 +72,7 @@ const router = new Router({ prefix: "/api/1.0" });
 router.put("/reading", async (ctx, next) => {
   try {
     const { body } = ctx.request;
-    const validationResult = validate(body, readingSchema)
+    const validationResult = validate(body, readingSchema);
     if (validationResult.valid) {
       const {
         gas = null,
