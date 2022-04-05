@@ -9,4 +9,5 @@ module.exports = {
     password: env.get('MYSQL_PASSWORD').required().asString(),
   },
   apiServerPort: env.get('API_SERVER_PORT').default(3000).asPortNumber(),
+  homebridgeHost: env.get('HOMEBRIDGE_HOST').required().asString(),
 }

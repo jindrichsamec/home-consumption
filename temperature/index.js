@@ -106,6 +106,13 @@ const intervalId = setInterval(() => {
       measurement.battery,
       measurement.deviceMacAddress
     );
+
+    sendWebhook(
+      measurement.temperature,
+      measurement.humidity,
+      measurement.deviceMacAddress
+    );
+
     console.dir(measurement);
   })
 
