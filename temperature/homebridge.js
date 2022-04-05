@@ -1,4 +1,4 @@
-const got = require('got')
+const fetch = require('node-fetch')
 
 const config = require('../config')
 
@@ -7,11 +7,11 @@ async function sendWebhook(
   humidity = null,
   deviceMacAddress = null
 ) {
-  temperature !== null && got.get(
+  temperature !== null && fetch(
     `http://${config.homebridgeHost}/?accessoryId=${deviceMacAddress}:temp&value=${temperature / 10}`,
   );
 
-  humidity !== null && got.get(
+  humidity !== null && fetch(
     `http://${config.homebridgeHost}/?accessoryId=${deviceMacAddress}:humidity&value=${humidity / 10}`,
   );
 }
