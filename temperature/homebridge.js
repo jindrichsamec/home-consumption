@@ -17,5 +17,5 @@ async function sendWebhook(
 }
 
 module.exports = {
-  insertTemperature
+  sendWebhook
 }
