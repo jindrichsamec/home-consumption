@@ -1,14 +1,16 @@
 const noble = require("@abandonware/noble");
 const { Parser, EventTypes, SERVICE_DATA_UUID } = require("./parser");
 const { insertTemperature } = require("./storage");
-const { sendWebhook } = require('./homebridge')
+const { sendWebhook } = require("./homebridge");
 
 // const MI_TOKEN = "27535a40329effc1de539201b8280c15";
 const TOKENS = [
   "453e4ddc667863f2c8665d3e29ae7c8f",
   "87f532e43b1523c4e461ffb650f03d5c",
   "00adb26a0d30e6a9b3173962a8753bc9",
-  "b4ca84809a1bb1cf62419f3e5f614b0a"
+  "b4ca84809a1bb1cf62419f3e5f614b0a",
+  "97bd52ead1c5d54775543df7",
+  "b93c502a802aa3821cace3977a021d30",
 ];
 
 noble.on("stateChange", async (state) => {
@@ -27,47 +29,56 @@ function getValidServiceData(serviceData) {
   );
 }
 
-
 const measurements = [];
 
 const findOrCreateMeasurement = (deviceMacAddress) => {
-  let measurement = measurements.find((m) => m.deviceMacAddress === deviceMacAddress)
+  let measurement = measurements.find(
+    (m) => m.deviceMacAddress === deviceMacAddress
+  );
   if (!measurement) {
-    measurement = createMeasurement(deviceMacAddress)
-    measurements.push(measurement)
+    measurement = createMeasurement(deviceMacAddress);
+    measurements.push(measurement);
   }
   return measurement;
-}
-
-const createMeasurement = (deviceMacAddress) => {
-  return {
-  temperature: null,
-  humidity: null,
-  battery: null,
-  deviceMacAddress,
 };
-}
+
+const createMeasurement = (deviceMacAddress) => {
+  return {
+    temperature: null,
+    humidity: null,
+    battery: null,
+    deviceMacAddress,
+  };
+};
 
 noble.on("discover", async (peripheral) => {
-  const { advertisement: { serviceData, localName } = {}, id, address } = peripheral;
+  const {
+    advertisement: { serviceData, localName } = {},
+    id,
+    address,
+  } = peripheral;
 
   const miData = getValidServiceData(serviceData);
 
-  if (localName === 'LYWSD03MMC' && address && miData) {
+  if (localName === "LYWSD03MMC" && address && miData) {
     const parsed = TOKENS.map((token) => {
       try {
         const result = new Parser(miData.data, token).parse();
-        return {result, token};
-      } catch(err) {
-        console.error(`Parsing with token "${token}" fails because "${err.message}. Address: ${address} Name: ${localName}"`)
+        return { result, token };
+      } catch (err) {
+        console.error(
+          `Parsing with token "${token}" fails because "${err.message}. Address: ${address} Name: ${localName}"`
+        );
       }
-      return {result: null, token}
+      return { result: null, token };
     });
 
-    const {result, token} = parsed.find((p) => Boolean(p.result));
+    const { result, token } = parsed.find((p) => Boolean(p.result));
 
     if (!result) {
-      console.log(`No result for device Address: ${address} Name: ${localName}"`)
+      console.log(
+        `No result for device Address: ${address} Name: ${localName}"`
+      );
       return;
     }
 
@@ -100,7 +111,7 @@ noble.on("discover", async (peripheral) => {
 });
 
 const intervalId = setInterval(() => {
-  measurements.forEach((measurement) => {
+  measurements.forEach((measurement) => {
     insertTemperature(
       measurement.temperature,
       measurement.humidity,
@@ -115,8 +126,7 @@ const intervalId = setInterval(() => {
     );
 
     console.dir(measurement);
-  })
-
+  });
 }, 5 * 60 * 1000);
 
 // A4:C1:38:22:DF:73
