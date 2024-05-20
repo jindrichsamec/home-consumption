@@ -9,7 +9,6 @@ const TOKENS = [
   "87f532e43b1523c4e461ffb650f03d5c",
   "00adb26a0d30e6a9b3173962a8753bc9",
   "b4ca84809a1bb1cf62419f3e5f614b0a",
-  "97bd52ead1c5d54775543df7",
   "b93c502a802aa3821cace3977a021d30",
 ];
 
